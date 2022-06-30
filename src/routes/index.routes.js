@@ -18,8 +18,8 @@ router.get("/edit", (req, res) => {
 
 // Post routers
 router.post("/tasks/add", async (req, res) => {
-  const taskSaved = await TaskModel(req.body).save(); // Save the task into the db.
-  res.send("Added task"); // return Added task when getting a post to /tasks/add
+  await TaskModel(req.body).save(); // Save the task into the db.
+  res.redirect("/"); // Redirect to home when finishing.
 });
 
 export default router;
