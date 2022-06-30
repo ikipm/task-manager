@@ -19,6 +19,9 @@ app.engine(
   }).engine
 );
 
+// Middleware
+app.use(express.urlencoded({ extended: false })); // for post request. Convert to a JSON file the req.
+
 // Set handlebars as the default template engine
 app.set("view engine", ".hbs");
 
