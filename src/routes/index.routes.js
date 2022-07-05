@@ -31,6 +31,13 @@ router.get("/delete/:id", async (req, res) => {
   res.redirect("/"); // redirect to index.hbs file
 });
 
+router.get("/done/:id", async (req, res) => {
+  const task = await TaskModel.findById(req.params.id);
+  task.done = !task.done;
+  await task.save();
+  res.redirect("/"); // redirect to index.hbs file
+});
+
 // Post routers
 router.post("/tasks/add", async (req, res) => {
   try {
