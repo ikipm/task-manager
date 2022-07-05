@@ -16,7 +16,11 @@
         <td>{{this.description}}</td>
         <td>Done: {{this.done}}</td>
         <td>
-          <a href="/done/{{_id}}">Done</a>
+          {{#if done}}
+            <a href="/done/{{_id}}">Undone</a>
+          {{else}}
+            <a href="/done/{{_id}}">Done</a>
+          {{/if}}
           <a href="/edit/{{_id}}">Edit</a>
           <a href="/delete/{{_id}}">Delete</a>
         </td>
