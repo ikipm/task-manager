@@ -6,15 +6,29 @@ const router = Router();
 // Get routers
 router.get("/", async (req, res) => {
   const tasks = await TaskModel.find().lean(); // getting tasks from the db and converting to normal js object.
-  res.render("index", { tasks: tasks }); // rendering index.hbs file when user visits /
+  res.render("index", { tasks }); // rendering index.hbs file when user visits /
 });
 
 router.get("/about", (req, res) => {
   res.render("about"); // rendering about.hbs file when user visits /about
 });
 
-router.get("/edit", (req, res) => {
-  res.render("edit"); // rendering edit.hbs file when user visits /edit
+router.get("/edit/:id", async (req, res) => {
+  try {
+    const task = await TaskModel.findById(req.params.id).lean(); // getting tasks from the db by the id and converting to normal js object.
+    if (task) {
+      res.render("edit", { task }); // rendering edit.hbs file when user visits /edit
+    } else {
+      res.redirect("/"); // redirect to index.hbs file
+    }
+  } catch (error) {
+    console.error(error); // if there is an error, show it
+  }
+});
+
+router.get("/delete/:id", async (req, res) => {
+  await TaskModel.findByIdAndDelete(req.params.id); // find a task by the id and delete it.
+  res.redirect("/"); // redirect to index.hbs file
 });
 
 // Post routers
@@ -25,6 +39,11 @@ router.post("/tasks/add", async (req, res) => {
   } catch (error) {
     console.error(error); // if there is an error, show it
   }
+});
+
+router.post("/edit/:id", async (req, res) => {
+  await TaskModel.findByIdAndUpdate(req.params.id, req.body); // Update the task by the id
+  res.redirect("/"); // redirect to index.hbs file
 });
 
 export default router;
