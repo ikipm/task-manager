@@ -1,29 +1,44 @@
-<table>
-  <thead>
-    <tr>
-      <th>N.</th>
-      <th>Title</th>
-      <th>Description</th>
-      <th>Operations</th>
-    </tr>
-  </thead>
-
-  <tbody>
-    {{#each tasks}}
+{{#if tasks}}
+  <table class="table table-bordered table-hover table-dark">
+    <thead>
       <tr>
-        <td>{{@index}}</td>
-        <td>{{this.title}}</td>
-        <td>{{this.description}}</td>
-        <td>
-          {{#if done}}
-            <a href="/task/done/{{_id}}">Undone</a>
-          {{else}}
-            <a href="/task/done/{{_id}}">Done</a>
-          {{/if}}
-          <a href="/task/edit/{{_id}}">Edit</a>
-          <a href="/task/delete/{{_id}}">Delete</a>
-        </td>
+        <th>N.</th>
+        <th>Title</th>
+        <th>Description</th>
+        <th>Operations</th>
       </tr>
-    {{/each}}
-  </tbody>
-</table>
+    </thead>
+
+    <tbody>
+      {{#each tasks}}
+        <tr>
+          <td>{{@index}}</td>
+          <td>{{this.title}}</td>
+          <td>{{this.description}}</td>
+          <td>
+            {{#if done}}
+              <a
+                href="/task/done/{{_id}}"
+                class="btn btn-success btn-sm"
+              >Done</a>
+            {{else}}
+              <a
+                href="/task/done/{{_id}}"
+                class="btn btn-warning btn-sm"
+              >Undone</a>
+            {{/if}}
+            <a href="/task/edit/{{_id}}" class="btn btn-primary btn-sm">Edit</a>
+            <a
+              href="/task/delete/{{_id}}"
+              class="btn btn-danger btn-sm"
+            >Delete</a>
+          </td>
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
+{{else}}
+  <div class="text-center text-white">
+    <h2>No tasks added</h2>
+  </div>
+{{/if}}
