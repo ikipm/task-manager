@@ -6,6 +6,7 @@ const AddTask = async (req, res) => {
     await TaskModel(req.body).save(); // Save the task into the db.
     res.redirect("/"); // Redirect to home when finishing.
   } catch (error) {
+    res.redirect("/error");
     console.error(error); // if there is an error, show it
   }
 };
@@ -38,7 +39,11 @@ const RenderTaskEdit = async (req, res) => {
 // Load tasks
 const LoadTasks = async (req, res) => {
   const tasks = await TaskModel.find().lean(); // getting tasks from the db and converting to normal js object.
-  res.render("index", { tasks }); // rendering index.hbs file when user visits /
+  if (req.params.showAlert === "error") {
+    res.render("index", { tasks, showAlert: true }); // rendering index.hbs file when user visits / and showing alert
+  } else {
+    res.render("index", { tasks }); // rendering index.hbs file when user visits /
+  }
 };
 
 // ToggleDone from tasks

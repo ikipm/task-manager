@@ -11,7 +11,7 @@ import {
 const router = Router();
 
 // Get routers
-router.get("/", LoadTasks);
+router.get("/:showAlert?", LoadTasks);
 
 router.get("/task/edit/:id", RenderTaskEdit);
 
