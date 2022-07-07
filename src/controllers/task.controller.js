@@ -43,9 +43,9 @@ const LoadTasks = async (req, res) => {
 
 // ToggleDone from tasks
 const ToggleDone = async (req, res) => {
-  const task = await TaskModel.findById(req.params.id);
-  task.done = !task.done;
-  await task.save();
+  const task = await TaskModel.findById(req.params.id); // getting tasks from the db by the id
+  task.done = !task.done; // set done with the opposite value
+  await task.save(); // save the changes
   res.redirect("/"); // redirect to index.hbs file
 };
 
