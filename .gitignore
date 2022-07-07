@@ -3,3 +3,6 @@ node_modules
 
 # Enviroment variables
 .env
+
+# Compiled code
+dist
