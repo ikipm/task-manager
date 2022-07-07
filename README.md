@@ -1,6 +1,8 @@
 # Task Manager
 This is a task manager created with JavaScript and using MongoDB.
 
+App preview: https://task-app-ikipm.herokuapp.com/
+
 ## Installation
 1. Clone the repository:
 ``git clone https://github.com/ikipm/task-manager``
@@ -16,3 +18,5 @@ This is a task manager created with JavaScript and using MongoDB.
     - For compiling the app use:
     ``npm run build``
 
+### Other
+Tutorial: https://youtu.be/I-MhmB5B6Zk
