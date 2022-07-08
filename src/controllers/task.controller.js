@@ -41,8 +41,10 @@ const LoadTasks = async (req, res) => {
   const tasks = await TaskModel.find().lean(); // getting tasks from the db and converting to normal js object.
   if (req.params.showAlert === "error") {
     res.render("index", { tasks, showAlert: true }); // rendering index.hbs file when user visits / and showing alert
-  } else {
+  } else if (!req.params.showAlert) {
     res.render("index", { tasks }); // rendering index.hbs file when user visits /
+  } else {
+    res.render("404")
   }
 };
 
@@ -54,4 +56,16 @@ const ToggleDone = async (req, res) => {
   res.redirect("/"); // redirect to index.hbs file
 };
 
-export { AddTask, DeleteTask, EditTask, RenderTaskEdit, LoadTasks, ToggleDone };
+const RenderAbout = (req, res) => {
+  res.render("about");
+};
+
+export {
+  AddTask,
+  DeleteTask,
+  EditTask,
+  RenderTaskEdit,
+  LoadTasks,
+  ToggleDone,
+  RenderAbout,
+};
