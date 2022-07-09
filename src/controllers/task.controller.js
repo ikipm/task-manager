@@ -19,8 +19,14 @@ const DeleteTask = async (req, res) => {
 
 // Edit tasks
 const EditTask = async (req, res) => {
-  await TaskModel.findByIdAndUpdate(req.params.id, req.body); // Update the task by the id
-  res.redirect("/"); // redirect to index.hbs file
+  try {
+    await TaskModel.findByIdAndUpdate(req.params.id, req.body); // Update the task by the id
+    res.redirect("/"); // redirect to index.hbs file
+  } catch (error) {
+    const task = await TaskModel.findById(req.params.id).lean(); // getting tasks from the db by the id and converting to normal js object.
+    res.render("edit", { task, showAlert: true }); // rendering edit.hbs file with an alert
+    console.error(error); // if there is an error, show it
+  }
 };
 
 const RenderTaskEdit = async (req, res) => {
