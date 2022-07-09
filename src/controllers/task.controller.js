@@ -44,7 +44,7 @@ const LoadTasks = async (req, res) => {
   } else if (!req.params.showAlert) {
     res.render("index", { tasks }); // rendering index.hbs file when user visits /
   } else {
-    res.render("404")
+    res.render("404");
   }
 };
 
@@ -56,8 +56,14 @@ const ToggleDone = async (req, res) => {
   res.redirect("/"); // redirect to index.hbs file
 };
 
+// Render about.hbs
 const RenderAbout = (req, res) => {
   res.render("about");
+};
+
+// Render nologed.hbs and creates a user or logs in
+const RenderLogin = (req, res) => {
+  res.render("nologed");
 };
 
 export {
@@ -68,4 +74,5 @@ export {
   LoadTasks,
   ToggleDone,
   RenderAbout,
+  RenderLogin,
 };

@@ -1,0 +1,39 @@
+<div class="card card-body p-4 bg-dark text-white text-center">
+  <h2 class="card-title">Register</h2>
+  <form action="/register" method="POST">
+    <div>
+      <input
+        type="text"
+        name="user"
+        placeholder="User"
+        id="user"
+        class="form-control bg-dark text-white mt-2"
+        required
+      />
+    </div>
+    <div>
+      <input
+        type="email"
+        name="email"
+        placeholder="Email"
+        id="email"
+        class="form-control bg-dark text-white mt-2"
+        required
+      />
+    </div>
+    <div>
+      <input
+        type="password"
+        name="password"
+        placeholder="Password"
+        id="password"
+        class="form-control bg-dark text-white mt-2"
+        required
+      />
+    </div>
+
+    <div>
+      <button id="registerUser" class="btn btn-secondary mt-2">Register</button>
+    </div>
+  </form>
+</div>
