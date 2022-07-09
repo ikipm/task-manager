@@ -6,13 +6,16 @@ import {
   LoadTasks,
   RenderTaskEdit,
   ToggleDone,
-  RenderAbout
+  RenderAbout,
+  RenderLogin,
 } from "../controllers/task.controller";
 
 const router = Router();
 
 // Get routers
 router.get("/about", RenderAbout);
+
+router.get("/login", RenderLogin);
 
 router.get("/:showAlert?", LoadTasks);
 
