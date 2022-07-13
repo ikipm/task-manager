@@ -61,11 +61,6 @@ const RenderAbout = (req, res) => {
   res.render("about");
 };
 
-// Render nologed.hbs and creates a user or logs in
-const RenderLogin = (req, res) => {
-  res.render("nologed");
-};
-
 export {
   AddTask,
   DeleteTask,
@@ -74,5 +69,4 @@ export {
   LoadTasks,
   ToggleDone,
   RenderAbout,
-  RenderLogin,
 };
