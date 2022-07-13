@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { LoginUser, RegisterUser, RenderLogin } from "../controllers/login.controller";
+import { LoginUser, LogoutUser, RegisterUser, RenderLogin } from "../controllers/login.controller";
 import {
   AddTask,
   DeleteTask,
@@ -16,6 +16,8 @@ const router = Router();
 router.get("/about", RenderAbout);
 
 router.get("/login", RenderLogin);
+
+router.get("/logout", LogoutUser)
 
 router.get("/:otherPage?", LoadTasks);
 

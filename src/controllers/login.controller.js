@@ -23,7 +23,7 @@ const RegisterUser = async (req, res) => {
     userID = dbUser._id;
     res.redirect("/");
   } catch (error) {
-    res.render("nologed", {showRegisterAlert: true});
+    res.render("nologed", { showRegisterAlert: true });
     console.error(error);
   }
 };
@@ -40,7 +40,7 @@ const LoginUser = (req, res) => {
           userID = dbEntry[0]._id;
           res.redirect("/");
         } else {
-          res.render("nologed", {showLoginAlert: true});
+          res.render("nologed", { showLoginAlert: true });
         }
       } catch (error) {
         res.redirect("/login");
@@ -51,4 +51,11 @@ const LoginUser = (req, res) => {
   }
 };
 
-export { RenderLogin, RegisterUser, LoginUser, user, userID };
+// Logging out user
+const LogoutUser = (req, res) => {
+  user = "N/A";
+  userID = NaN;
+  res.redirect("/login")
+};
+
+export { RenderLogin, RegisterUser, LoginUser, LogoutUser, user, userID };
