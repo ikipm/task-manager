@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { RegisterUser, RenderLogin } from "../controllers/login.controller";
+import { LoginUser, RegisterUser, RenderLogin } from "../controllers/login.controller";
 import {
   AddTask,
   DeleteTask,
@@ -17,7 +17,7 @@ router.get("/about", RenderAbout);
 
 router.get("/login", RenderLogin);
 
-router.get("/:showAlert?", LoadTasks);
+router.get("/:otherPage?", LoadTasks);
 
 router.get("/task/edit/:id", RenderTaskEdit);
 
@@ -31,5 +31,7 @@ router.post("/task/add", AddTask);
 router.post("/task/edit/:id", EditTask);
 
 router.post("/register", RegisterUser);
+
+router.post("/login", LoginUser)
 
 export default router;
