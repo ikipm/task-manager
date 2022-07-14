@@ -1,15 +1,9 @@
 <div class="container">
+  <div class="d-flex justify-content-center">
+    <a href="logout" class="btn btn-secondary btn-lg mb-4">Hello {{user}}</a>
+  </div>
   <div class="row">
     <div class="col-md-5">
-      {{#if showAlert}}
-        <div class="alert alert-warning d-flex align-items-center alert-dismissible" role="alert">
-          <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Warning:"><use xlink:href="#exclamation-triangle-fill"/></svg>
-          <div>
-            Duplicated title! Try again.
-          </div>
-          <a class="btn-close" data-dismiss="alert"></a>
-        </div>
-      {{/if}}
       {{> tasks/taskForm}}
     </div>
     <div class="col-md-7">

@@ -1,4 +1,5 @@
 import { Router } from "express";
+import { LoginUser, LogoutUser, RegisterUser, RenderLogin } from "../controllers/login.controller";
 import {
   AddTask,
   DeleteTask,
@@ -7,7 +8,6 @@ import {
   RenderTaskEdit,
   ToggleDone,
   RenderAbout,
-  RenderLogin,
 } from "../controllers/task.controller";
 
 const router = Router();
@@ -17,7 +17,9 @@ router.get("/about", RenderAbout);
 
 router.get("/login", RenderLogin);
 
-router.get("/:showAlert?", LoadTasks);
+router.get("/logout", LogoutUser)
+
+router.get("/:otherPage?", LoadTasks);
 
 router.get("/task/edit/:id", RenderTaskEdit);
 
@@ -29,5 +31,9 @@ router.get("/task/done/:id", ToggleDone);
 router.post("/task/add", AddTask);
 
 router.post("/task/edit/:id", EditTask);
+
+router.post("/register", RegisterUser);
+
+router.post("/login", LoginUser)
 
 export default router;

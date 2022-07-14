@@ -6,7 +6,6 @@ const taskSchema = new Schema(
     title: {
       type: String,
       required: true,
-      unique: true,
       trim: true,
     },
     description: {
@@ -17,6 +16,9 @@ const taskSchema = new Schema(
       type: Boolean,
       default: false,
     },
+    userID: {
+      type: String
+    }
   },
   {
     timestamps: true,
