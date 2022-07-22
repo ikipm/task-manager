@@ -1,5 +1,7 @@
 import express from "express";
+import session from "express-session";
 import { create } from "express-handlebars";
+import { PASSWORD } from "./config";
 import indexRoutes from "./routes/index.routes";
 import path from "path";
 
@@ -21,6 +23,7 @@ app.engine(
 
 // Middleware
 app.use(express.urlencoded({ extended: false })); // for post request. Convert to a JSON file the req.
+app.use(session({ secret: PASSWORD, secure: true, resave: true, saveUninitialized: true })); // password for managing sessions in express.
 
 // Set handlebars as the default template engine
 app.set("view engine", ".hbs");
