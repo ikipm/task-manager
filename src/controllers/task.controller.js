@@ -39,10 +39,14 @@ const RenderTaskEdit = async (req, res) => {
   if (req.session.user) {
     try {
       const task = await TaskModel.findById(req.params.id).lean(); // getting tasks from the db by the id and converting to normal js object.
-      if (task) {
-        res.render("edit", { task }); // rendering edit.hbs file when user visits /edit
+      if (task.userID === req.session.userID){
+        if (task) {
+          res.render("edit", { task }); // rendering edit.hbs file when user visits /edit
+        } else {
+          res.redirect("/"); // redirect to index.hbs file
+        }
       } else {
-        res.redirect("/"); // redirect to index.hbs file
+        res.render("404")
       }
     } catch (error) {
       console.error(error); // if there is an error, show it
