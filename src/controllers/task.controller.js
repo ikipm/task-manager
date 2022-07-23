@@ -1,4 +1,5 @@
 import TaskModel from "../models/Task";
+import UsersModel from "../models/Users";
 
 // Add the task
 const AddTask = async (req, res) => {
@@ -25,6 +26,25 @@ const DeleteTask = async (req, res) => {
   }
 };
 
+// Task info
+const RenderTaskInfo = async (req, res) => {
+  if (req.session.user) {
+    const task = await TaskModel.findById(req.params.id).lean(); // getting tasks from the db by the id and converting to normal js object.
+    const creator = await UsersModel.findById(task.userID).lean()
+    if (task.userID === req.session.userID) {
+      if (task && creator) {
+        res.render("info", { task, creator }); // rendering edit.hbs file when user visits /edit
+      } else {
+        res.redirect("/"); // redirect to index.hbs file
+      }
+    } else {
+      res.render("404");
+    }
+  } else {
+    res.redirect("/login");
+  }
+};
+
 // Edit tasks
 const EditTask = async (req, res) => {
   if (req.session.user) {
@@ -39,14 +59,14 @@ const RenderTaskEdit = async (req, res) => {
   if (req.session.user) {
     try {
       const task = await TaskModel.findById(req.params.id).lean(); // getting tasks from the db by the id and converting to normal js object.
-      if (task.userID === req.session.userID){
+      if (task.userID === req.session.userID) {
         if (task) {
           res.render("edit", { task }); // rendering edit.hbs file when user visits /edit
         } else {
           res.redirect("/"); // redirect to index.hbs file
         }
       } else {
-        res.render("404")
+        res.render("404");
       }
     } catch (error) {
       console.error(error); // if there is an error, show it
@@ -61,8 +81,8 @@ const LoadTasks = async (req, res) => {
   if (req.session.user) {
     const tasks = await TaskModel.find({ userID: req.session.userID }).lean();
     if (!req.params.otherPage) {
-      const user = req.session.user
-      res.render("index", { tasks, user}); // rendering index.hbs file when user visits /
+      const user = req.session.user;
+      res.render("index", { tasks, user }); // rendering index.hbs file when user visits /
     } else {
       res.render("404");
     }
@@ -88,11 +108,6 @@ const RenderAbout = (req, res) => {
   res.render("about");
 };
 
-// Render nologed.hbs and creates a user or logs in
-const RenderLogin = (req, res) => {
-  res.render("nologed");
-};
-
 export {
   AddTask,
   DeleteTask,
@@ -101,5 +116,5 @@ export {
   LoadTasks,
   ToggleDone,
   RenderAbout,
-  RenderLogin,
+  RenderTaskInfo,
 };

@@ -8,6 +8,7 @@ import {
   RenderTaskEdit,
   ToggleDone,
   RenderAbout,
+  RenderTaskInfo
 } from "../controllers/task.controller";
 
 const router = Router();
@@ -26,6 +27,8 @@ router.get("/task/edit/:id", RenderTaskEdit);
 router.get("/task/delete/:id", DeleteTask);
 
 router.get("/task/done/:id", ToggleDone);
+
+router.get("/task/info/:id", RenderTaskInfo)
 
 // Post routers
 router.post("/task/add", AddTask);
