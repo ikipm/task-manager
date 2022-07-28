@@ -19,8 +19,13 @@ const AddTask = async (req, res) => {
 // Delete the task
 const DeleteTask = async (req, res) => {
   if (req.session.user) {
-    await TaskModel.findByIdAndDelete(req.params.id); // find a task by the id and delete it.
-    res.redirect("/"); // redirect to index.hbs file
+    const task = await TaskModel.findById(req.params.id).lean();
+    if (task.userID === req.session.userID) {
+      await TaskModel.findByIdAndDelete(req.params.id); // find a task by the id and delete it.
+      res.redirect("/"); // redirect to index.hbs file
+    } else {
+      res.render("404");
+    }
   } else {
     res.redirect("/login");
   }
@@ -31,7 +36,10 @@ const RenderTaskInfo = async (req, res) => {
   if (req.session.user) {
     const task = await TaskModel.findById(req.params.id).lean(); // getting tasks from the db by the id and converting to normal js object.
     const creator = await UsersModel.findById(task.userID).lean();
-    if (task.userID === req.session.userID) {
+    if (
+      task.userID === req.session.userID ||
+      task.share.includes(req.session.email)
+    ) {
       if (task && creator) {
         res.render("info", { task, creator }); // rendering info.hbs file when user visits /info
       } else {
@@ -48,8 +56,13 @@ const RenderTaskInfo = async (req, res) => {
 // Edit tasks
 const EditTask = async (req, res) => {
   if (req.session.user) {
-    await TaskModel.findByIdAndUpdate(req.params.id, req.body); // Update the task by the id
-    res.redirect("/"); // redirect to index.hbs file
+    const task = await TaskModel.findById(req.params.id).lean();
+    if (task.userID === req.session.userID) {
+      await TaskModel.findByIdAndUpdate(req.params.id, req.body); // Update the task by the id
+      res.redirect("/"); // redirect to index.hbs file
+    } else {
+      res.render("404");
+    }
   } else {
     res.redirect("/login");
   }
@@ -80,9 +93,12 @@ const RenderTaskEdit = async (req, res) => {
 const LoadTasks = async (req, res) => {
   if (req.session.user) {
     const tasks = await TaskModel.find({ userID: req.session.userID }).lean();
+    const shareTasks = await TaskModel.find({
+      share: req.session.email,
+    }).lean();
     if (!req.params.otherPage) {
       const user = req.session.user;
-      res.render("index", { tasks, user }); // rendering index.hbs file when user visits /
+      res.render("index", { tasks, shareTasks, user }); // rendering index.hbs file when user visits /
     } else {
       res.render("404");
     }
@@ -107,8 +123,12 @@ const ToggleDone = async (req, res) => {
 const RenderShare = async (req, res) => {
   if (req.session.user) {
     const task = await TaskModel.findById(req.params.id).lean();
-    const users = task.share; // get array of the users that have access to the task
-    res.render("share", { task, users });
+    if (task.userID === req.session.userID) {
+      const users = task.share; // get array of the users that have access to the task
+      res.render("share", { task, users });
+    } else {
+      res.render("404");
+    }
   } else {
     res.redirect("/login");
   }
@@ -117,11 +137,16 @@ const RenderShare = async (req, res) => {
 const AddShareUser = async (req, res) => {
   if (req.session.user) {
     const task = await TaskModel.findById(req.params.id).lean();
-    if (!task.share.includes(req.body.userEmail)) { // if the array have the element it doesn't add it
-      task.share.push(req.body.userEmail);
-      await TaskModel.findByIdAndUpdate(req.params.id, task);
+    if (task.userID === req.session.userID) {
+      if (!task.share.includes(req.body.userEmail)) {
+        // if the array have the element it doesn't add it
+        task.share.push(req.body.userEmail);
+        await TaskModel.findByIdAndUpdate(req.params.id, task);
+      }
+      res.redirect("/share/" + req.params.id);
+    } else {
+      res.render("404");
     }
-    res.redirect("/share/" + req.params.id);
   } else {
     res.redirect("/login");
   }
@@ -130,9 +155,13 @@ const AddShareUser = async (req, res) => {
 const DeleteShareUser = async (req, res) => {
   if (req.session.user) {
     const task = await TaskModel.findById(req.params.id).lean();
-    task.share = task.share.filter((data) => data != req.params.user); // delete the entries with the same user
-    await TaskModel.findByIdAndUpdate(req.params.id, task);
-    res.redirect("/share/" + req.params.id);
+    if (task.userID === req.session.userID) {
+      task.share = task.share.filter((data) => data != req.params.user); // delete the entries with the same user
+      await TaskModel.findByIdAndUpdate(req.params.id, task);
+      res.redirect("/share/" + req.params.id);
+    } else {
+      res.render("404")
+    }
   } else {
     res.redirect("/login");
   }

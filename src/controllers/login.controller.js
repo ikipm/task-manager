@@ -18,6 +18,7 @@ const RegisterUser = async (req, res) => {
     const dbUser = await UsersModel(req.body).save(); // saves the user in the db
     req.session.user = req.body.user;
     req.session.userID = dbUser._id;
+    req.session.email = req.body.email;
     res.redirect("/");
   } catch (error) {
     res.render("nologed", { showRegisterAlert: true });
@@ -35,6 +36,7 @@ const LoginUser = (req, res) => {
         if (bcrypt.compareSync(req.body.password, dbEntry[0].password)) {
           req.session.user = req.body.user;
           req.session.userID = dbEntry[0]._id;
+          req.session.email = dbEntry[0].email;
           res.redirect("/");
         } else {
           res.render("nologed", { showLoginAlert: true });
