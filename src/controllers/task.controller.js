@@ -30,10 +30,10 @@ const DeleteTask = async (req, res) => {
 const RenderTaskInfo = async (req, res) => {
   if (req.session.user) {
     const task = await TaskModel.findById(req.params.id).lean(); // getting tasks from the db by the id and converting to normal js object.
-    const creator = await UsersModel.findById(task.userID).lean()
+    const creator = await UsersModel.findById(task.userID).lean();
     if (task.userID === req.session.userID) {
       if (task && creator) {
-        res.render("info", { task, creator }); // rendering edit.hbs file when user visits /edit
+        res.render("info", { task, creator }); // rendering info.hbs file when user visits /info
       } else {
         res.redirect("/"); // redirect to index.hbs file
       }
@@ -103,6 +103,41 @@ const ToggleDone = async (req, res) => {
   }
 };
 
+// Share system
+const RenderShare = async (req, res) => {
+  if (req.session.user) {
+    const task = await TaskModel.findById(req.params.id).lean();
+    const users = task.share; // get array of the users that have access to the task
+    res.render("share", { task, users });
+  } else {
+    res.redirect("/login");
+  }
+};
+
+const AddShareUser = async (req, res) => {
+  if (req.session.user) {
+    const task = await TaskModel.findById(req.params.id).lean();
+    if (!task.share.includes(req.body.userEmail)) { // if the array have the element it doesn't add it
+      task.share.push(req.body.userEmail);
+      await TaskModel.findByIdAndUpdate(req.params.id, task);
+    }
+    res.redirect("/share/" + req.params.id);
+  } else {
+    res.redirect("/login");
+  }
+};
+
+const DeleteShareUser = async (req, res) => {
+  if (req.session.user) {
+    const task = await TaskModel.findById(req.params.id).lean();
+    task.share = task.share.filter((data) => data != req.params.user); // delete the entries with the same user
+    await TaskModel.findByIdAndUpdate(req.params.id, task);
+    res.redirect("/share/" + req.params.id);
+  } else {
+    res.redirect("/login");
+  }
+};
+
 // Render about.hbs
 const RenderAbout = (req, res) => {
   res.render("about");
@@ -117,4 +152,7 @@ export {
   ToggleDone,
   RenderAbout,
   RenderTaskInfo,
+  RenderShare,
+  AddShareUser,
+  DeleteShareUser,
 };

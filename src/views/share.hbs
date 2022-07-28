@@ -1,0 +1,29 @@
+<div class="container">
+  <div class="row d-flex justify-content-center">
+    <div class="col-md-7">
+      <div class="card card-body p-4 bg-dark text-white">
+        <h3 class="card-title">Share a task</h3>
+        {{#each users}}
+          <p>{{this}}
+            <a
+              href="/share/delete/{{../task._id}}/{{this}}"
+              class="btn btn-outline-danger btn-sm float-right"
+            >-</a></p>
+        {{/each}}
+        <form action="/share/add/{{task._id}}" method="POST">
+          <div class="input-group mb-3">
+            <button id="Add User" class="btn btn-outline-secondary">Add User</button>
+            <input
+              type="email"
+              name="userEmail"
+              placeholder="Email"
+              id="userEmail"
+              class="form-control bg-dark text-white"
+              required
+            />
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
