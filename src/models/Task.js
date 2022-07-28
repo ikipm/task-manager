@@ -17,8 +17,11 @@ const taskSchema = new Schema(
       default: false,
     },
     userID: {
-      type: String
-    }
+      type: String,
+    },
+    share: {
+      type: Array,
+    },
   },
   {
     timestamps: true,

@@ -12,7 +12,79 @@
     <tbody>
       {{#each tasks}}
         <tr>
-          <td>{{@index}}</td>
+          <td>Own task: {{@index}}</td>
+          <td>{{this.title}}</td>
+          <td>{{this.description}}</td>
+          <td>
+            {{#if done}}
+              <a
+                href="/task/done/{{_id}}"
+                class="btn btn-success btn-sm"
+              >Done</a>
+            {{else}}
+              <a
+                href="/task/done/{{_id}}"
+                class="btn btn-warning btn-sm"
+              >Undone</a>
+            {{/if}}
+            <a
+              href="/task/info/{{_id}}"
+              class="btn btn-secondary btn-sm"
+            >Info</a>
+            <a href="/task/edit/{{_id}}" class="btn btn-primary btn-sm">Edit</a>
+            <a
+              href="/task/delete/{{_id}}"
+              class="btn btn-danger btn-sm"
+            >Delete</a>
+          </td>
+        </tr>
+      {{/each}}
+      {{#each shareTasks}}
+        <tr>
+          <td>Shared task: {{@index}}</td>
+          <td>{{this.title}}</td>
+          <td>{{this.description}}</td>
+          <td>
+            {{#if done}}
+              <a
+                href="/task/done/{{_id}}"
+                class="btn btn-success btn-sm"
+              >Done</a>
+            {{else}}
+              <a
+                href="/task/done/{{_id}}"
+                class="btn btn-warning btn-sm"
+              >Undone</a>
+            {{/if}}
+            <a
+              href="/task/info/{{_id}}"
+              class="btn btn-secondary btn-sm"
+            >Info</a>
+            <a href="/task/edit/{{_id}}" class="btn btn-primary btn-sm">Edit</a>
+            <a
+              href="/task/delete/{{_id}}"
+              class="btn btn-danger btn-sm"
+            >Delete</a>
+          </td>
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
+{{else if shareTasks}}
+  <table class="table table-bordered table-hover table-dark">
+    <thead>
+      <tr>
+        <th>N.</th>
+        <th>Title</th>
+        <th>Description</th>
+        <th>Operations</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      {{#each shareTasks}}
+        <tr>
+          <td>Shared task: {{@index}}</td>
           <td>{{this.title}}</td>
           <td>{{this.description}}</td>
           <td>

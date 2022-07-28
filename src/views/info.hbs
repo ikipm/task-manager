@@ -5,6 +5,11 @@
         <h3 class="card-title">{{task.title}}</h3>
         <p>{{task.description}}</p>
         <h6>Creator: {{creator.user}}</h6>
+        {{#if task.share}}
+          <h6>Shared: {{task.share}}</h6>
+        {{else}}
+          <h6>Private</h6>
+        {{/if}}
       </div>
     </div>
   </div>
