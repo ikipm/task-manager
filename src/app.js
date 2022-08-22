@@ -23,7 +23,14 @@ app.engine(
 
 // Middleware
 app.use(express.urlencoded({ extended: false })); // for post request. Convert to a JSON file the req.
-app.use(session({ secret: PASSWORD, secure: true, resave: true, saveUninitialized: true })); // password for managing sessions in express.
+app.use(
+  session({
+    secret: PASSWORD,
+    secure: true,
+    resave: true,
+    saveUninitialized: true,
+  })
+); // password for managing sessions in express.
 
 // Set handlebars as the default template engine
 app.set("view engine", ".hbs");
@@ -33,5 +40,10 @@ app.use(indexRoutes);
 
 // Static files
 app.use(express.static(path.join(__dirname, "public")));
+
+// 404 configuration
+app.use((req, res, next)=>{
+  res.status(404).render("404");
+});
 
 export default app;
