@@ -24,7 +24,7 @@ const DeleteTask = async (req, res) => {
       await TaskModel.findByIdAndDelete(req.params.id); // find a task by the id and delete it.
       res.redirect("/"); // redirect to index.hbs file
     } else {
-      res.render("404");
+      res.status(404).render("404");
     }
   } else {
     res.redirect("/login");
@@ -34,19 +34,23 @@ const DeleteTask = async (req, res) => {
 // Task info
 const RenderTaskInfo = async (req, res) => {
   if (req.session.user) {
-    const task = await TaskModel.findById(req.params.id).lean(); // getting tasks from the db by the id and converting to normal js object.
-    const creator = await UsersModel.findById(task.userID).lean();
-    if (
-      task.userID === req.session.userID ||
-      task.share.includes(req.session.email)
-    ) {
-      if (task && creator) {
-        res.render("info", { task, creator }); // rendering info.hbs file when user visits /info
+    try {
+      const task = await TaskModel.findById(req.params.id).lean(); // getting tasks from the db by the id and converting to normal js object.
+      const creator = await UsersModel.findById(task.userID).lean();
+      if (
+        task.userID === req.session.userID ||
+        task.share.includes(req.session.email)
+      ) {
+        if (task && creator) {
+          res.render("info", { task, creator }); // rendering info.hbs file when user visits /info
+        } else {
+          res.redirect("/"); // redirect to index.hbs file
+        }
       } else {
-        res.redirect("/"); // redirect to index.hbs file
+        res.status(404).render("404");
       }
-    } else {
-      res.render("404");
+    } catch (error) {
+      res.status(404).render("404");
     }
   } else {
     res.redirect("/login");
@@ -56,12 +60,16 @@ const RenderTaskInfo = async (req, res) => {
 // Edit tasks
 const EditTask = async (req, res) => {
   if (req.session.user) {
-    const task = await TaskModel.findById(req.params.id).lean();
-    if (task.userID === req.session.userID) {
-      await TaskModel.findByIdAndUpdate(req.params.id, req.body); // Update the task by the id
-      res.redirect("/"); // redirect to index.hbs file
-    } else {
-      res.render("404");
+    try {
+      const task = await TaskModel.findById(req.params.id).lean();
+      if (task.userID === req.session.userID) {
+        await TaskModel.findByIdAndUpdate(req.params.id, req.body); // Update the task by the id
+        res.redirect("/"); // redirect to index.hbs file
+      } else {
+        res.status(404).render("404");
+      }
+    } catch (error) {
+      res.status(404).render("404");
     }
   } else {
     res.redirect("/login");
@@ -79,9 +87,10 @@ const RenderTaskEdit = async (req, res) => {
           res.redirect("/"); // redirect to index.hbs file
         }
       } else {
-        res.render("404");
+        res.status(404).render("404");
       }
     } catch (error) {
+      res.status(404).render("404");
       console.error(error); // if there is an error, show it
     }
   } else {
@@ -100,7 +109,7 @@ const LoadTasks = async (req, res) => {
       const user = req.session.user;
       res.render("index", { tasks, shareTasks, user }); // rendering index.hbs file when user visits /
     } else {
-      res.render("404");
+      res.status(404).render("404");
     }
   } else {
     res.redirect("/login");
@@ -127,7 +136,7 @@ const RenderShare = async (req, res) => {
       const users = task.share; // get array of the users that have access to the task
       res.render("share", { task, users });
     } else {
-      res.render("404");
+      res.status(404).render("404");
     }
   } else {
     res.redirect("/login");
@@ -145,7 +154,7 @@ const AddShareUser = async (req, res) => {
       }
       res.redirect("/share/" + req.params.id);
     } else {
-      res.render("404");
+      res.status(404).render("404");
     }
   } else {
     res.redirect("/login");
@@ -160,7 +169,7 @@ const DeleteShareUser = async (req, res) => {
       await TaskModel.findByIdAndUpdate(req.params.id, task);
       res.redirect("/share/" + req.params.id);
     } else {
-      res.render("404")
+      res.render("404");
     }
   } else {
     res.redirect("/login");
