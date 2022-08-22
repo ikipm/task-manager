@@ -2,14 +2,27 @@
   <div class="row d-flex justify-content-center">
     <div class="col-md-7">
       {{#if showAlert}}
-        <div class="alert alert-warning d-flex align-items-center alert-dismissible" role="alert">
-          <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Warning:"><use xlink:href="#exclamation-triangle-fill"/></svg>
+        <div
+          class="alert alert-warning d-flex align-items-center alert-dismissible"
+          role="alert"
+        >
+          <svg
+            class="bi flex-shrink-0 me-2"
+            width="24"
+            height="24"
+            role="img"
+            aria-label="Warning:"
+          ><use xlink:href="#exclamation-triangle-fill"></use></svg>
           <div>
             Duplicated title! Try again.
           </div>
           <a class="btn-close" data-dismiss="alert"></a>
         </div>
       {{/if}}
+      <div
+        style="background-color: {{task.color}}; height: 10px;"
+        class="rounded-top"
+      ></div>
       <div class="card card-body p-4 bg-dark text-white">
         <h3 class="card-title">Edit a task</h3>
         <form action="/task/edit/{{task._id}}" method="POST">
@@ -38,7 +51,19 @@
             >{{task.description}}</textarea>
           </div>
 
-          <a href="/share/{{task._id}}" class="mt-2 btn btn-outline-secondary">Share task</a>
+          <input
+            name="color"
+            type="color"
+            class="form-control form-control-color bg-dark mt-2"
+            id="colorInput"
+            value="{{task.color}}"
+            title="Choose your color"
+          />
+
+          <a
+            href="/share/{{task._id}}"
+            class="mt-2 btn btn-outline-secondary"
+          >Share task</a>
 
           <div>
             <button id="addTask" class="btn btn-primary mt-2">Update Task</button>

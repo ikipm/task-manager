@@ -22,6 +22,10 @@ const taskSchema = new Schema(
     share: {
       type: Array,
     },
+    color: {
+      type: String,
+      required: true,
+    },
   },
   {
     timestamps: true,
