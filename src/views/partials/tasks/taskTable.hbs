@@ -43,7 +43,7 @@
       {{/each}}
       {{#each shareTasks}}
         <tr>
-          <td style="background-color: {{color}};"></td>
+          <td style="background-color: {{color}};" class="rounded-start"></td>
           <td>Shared task: {{@index}}</td>
           <td>{{this.title}}</td>
           <td>{{this.description}}</td>
@@ -74,9 +74,10 @@
     </tbody>
   </table>
 {{else if shareTasks}}
-  <table class="table table-bordered table-hover table-dark">
+  <table class="table table-dark">
     <thead>
       <tr>
+        <th></th>
         <th>N.</th>
         <th>Title</th>
         <th>Description</th>
@@ -87,6 +88,7 @@
     <tbody>
       {{#each shareTasks}}
         <tr>
+          <td style="background-color: {{color}};" class="rounded-start"></td>
           <td>Shared task: {{@index}}</td>
           <td>{{this.title}}</td>
           <td>{{this.description}}</td>
