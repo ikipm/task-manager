@@ -1,6 +1,15 @@
 import UsersModel from "../models/Users";
 import bcrypt from "bcrypt";
 
+// Check if user is logged
+const IfIsLogged = (req, res, next) => {
+  if (req.session.user) {
+    next();
+  } else {
+    next(res.redirect("/login"));
+  }
+};
+
 // Render nologed.hbs and creates a user or logs in
 const RenderLogin = (req, res) => {
   // if user redirects to index
@@ -56,4 +65,4 @@ const LogoutUser = (req, res) => {
   res.redirect("/login");
 };
 
-export { RenderLogin, RegisterUser, LoginUser, LogoutUser };
+export { IfIsLogged, RenderLogin, RegisterUser, LoginUser, LogoutUser };
