@@ -1,0 +1,30 @@
+<div class="container">
+  <div class="row d-flex justify-content-center">
+    <div class="col-md-7">
+      <div class="card card-body p-4 bg-dark text-white">
+        <h3 class="card-title">Create an Api Token</h3>
+        {{#each token}}
+          <p>{{this.tokenName}} : {{this.token}}
+            <a
+              href="/api/delete-token/{{this.token}}"
+              class="btn btn-outline-danger btn-sm float-right"
+            >-</a></p>
+        {{/each}}
+        <form action="/api/create-token" method="POST">
+          <div class="input-group">
+            <button id="createToken" class="btn btn-outline-secondary">Create
+              Token</button>
+            <input
+              type="string"
+              name="tokenName"
+              placeholder="Token name"
+              id="tokenName"
+              class="form-control bg-dark text-white"
+              required
+            />
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

@@ -6,7 +6,7 @@ const IfIsLogged = (req, res, next) => {
   if (req.session.user) {
     next();
   } else {
-    next(res.redirect("/login"));
+    res.redirect("/login");
   }
 };
 

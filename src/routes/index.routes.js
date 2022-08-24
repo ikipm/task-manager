@@ -19,6 +19,12 @@ import {
   AddShareUser,
   DeleteShareUser,
 } from "../controllers/task.controller";
+import {
+  CreateToken,
+  DeleteToken,
+  GetTasksApi,
+  RenderApiToken,
+} from "../controllers/api.controller";
 
 const router = Router();
 
@@ -41,7 +47,7 @@ router.get("/task/info/:id", IfIsLogged, RenderTaskInfo);
 
 router.get("/share/:id", IfIsLogged, RenderShare);
 
-router.get("/share/delete/:id/:user", IfIsLogged, DeleteShareUser)
+router.get("/share/delete/:id/:user", IfIsLogged, DeleteShareUser);
 
 // Post routers
 router.post("/task/add", IfIsLogged, AddTask);
@@ -52,6 +58,18 @@ router.post("/register", RegisterUser);
 
 router.post("/login", LoginUser);
 
-router.post("/share/add/:id", IfIsLogged, AddShareUser)
+router.post("/share/add/:id", IfIsLogged, AddShareUser);
+
+///////////////// API /////////////////
+
+// Get routers
+router.get("/api/create-token", IfIsLogged, RenderApiToken);
+
+router.get("/api/delete-token/:token", IfIsLogged, DeleteToken);
+
+router.get("/api/tasks", GetTasksApi);
+
+// Post routers
+router.post("/api/create-token", IfIsLogged, CreateToken);
 
 export default router;
