@@ -18,6 +18,7 @@ const taskSchema = new Schema(
     },
     userID: {
       type: String,
+      required: true,
     },
     share: {
       type: Array,
