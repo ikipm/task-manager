@@ -1,5 +1,6 @@
 import { Router } from "express";
 import {
+  IfIsLogged,
   LoginUser,
   LogoutUser,
   RegisterUser,
@@ -26,31 +27,31 @@ router.get("/about", RenderAbout);
 
 router.get("/login", RenderLogin);
 
-router.get("/logout", LogoutUser);
+router.get("/logout", IfIsLogged, LogoutUser);
 
-router.get("/:otherPage?", LoadTasks);
+router.get("/:otherPage?", IfIsLogged, LoadTasks);
 
-router.get("/task/edit/:id", RenderTaskEdit);
+router.get("/task/edit/:id", IfIsLogged, RenderTaskEdit);
 
-router.get("/task/delete/:id", DeleteTask);
+router.get("/task/delete/:id", IfIsLogged, DeleteTask);
 
-router.get("/task/done/:id", ToggleDone);
+router.get("/task/done/:id", IfIsLogged, ToggleDone);
 
-router.get("/task/info/:id", RenderTaskInfo);
+router.get("/task/info/:id", IfIsLogged, RenderTaskInfo);
 
-router.get("/share/:id", RenderShare);
+router.get("/share/:id", IfIsLogged, RenderShare);
 
-router.get("/share/delete/:id/:user", DeleteShareUser)
+router.get("/share/delete/:id/:user", IfIsLogged, DeleteShareUser)
 
 // Post routers
-router.post("/task/add", AddTask);
+router.post("/task/add", IfIsLogged, AddTask);
 
-router.post("/task/edit/:id", EditTask);
+router.post("/task/edit/:id", IfIsLogged, EditTask);
 
 router.post("/register", RegisterUser);
 
 router.post("/login", LoginUser);
 
-router.post("/share/add/:id", AddShareUser)
+router.post("/share/add/:id", IfIsLogged, AddShareUser)
 
 export default router;
