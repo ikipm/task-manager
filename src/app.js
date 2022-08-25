@@ -5,7 +5,6 @@ import { PASSWORD } from "./config";
 import indexRoutes from "./routes/index.routes";
 import path from "path";
 import rateLimit from "express-rate-limit";
-import csrf from "csrf";
 
 const app = express();
 
@@ -53,8 +52,6 @@ var generalLimit = rateLimit({
   max: 30,
 });
 app.use(generalLimit);
-
-app.use(csrf({ cookie: true })); // CSRF cookie
 
 // Set handlebars as the default template engine
 app.set("view engine", ".hbs");
