@@ -23,12 +23,16 @@ const RenderLogin = (req, res) => {
 // Save the user in the db encrypting the key
 const RegisterUser = async (req, res) => {
   try {
-    req.body.password = bcrypt.hashSync(req.body.password, 10); // encrypt key
-    const dbUser = await UsersModel(req.body).save(); // saves the user in the db
-    req.session.user = req.body.user;
-    req.session.userID = dbUser._id;
-    req.session.email = req.body.email;
-    res.redirect("/");
+    if (!req.session.user) {
+      req.body.password = bcrypt.hashSync(req.body.password, 10); // encrypt key
+      const dbUser = await UsersModel(req.body).save(); // saves the user in the db
+      req.session.user = req.body.user;
+      req.session.userID = dbUser._id;
+      req.session.email = req.body.email;
+      res.redirect("/");
+    } else {
+      res.redirect("/");
+    }
   } catch (error) {
     res.render("nologed", { showRegisterAlert: true });
     console.error(error);
@@ -38,22 +42,26 @@ const RegisterUser = async (req, res) => {
 // Compare if the credentials are right and logs in with the user
 const LoginUser = (req, res) => {
   try {
-    // find the user in the db
-    UsersModel.find({ user: req.body.user }, function (error, dbEntry) {
-      try {
-        // compare db password and form
-        if (bcrypt.compareSync(req.body.password, dbEntry[0].password)) {
-          req.session.user = req.body.user;
-          req.session.userID = dbEntry[0]._id;
-          req.session.email = dbEntry[0].email;
-          res.redirect("/");
-        } else {
-          res.render("nologed", { showLoginAlert: true });
+    if (!req.session.user) {
+      // find the user in the db
+      UsersModel.find({ user: req.body.user }, function (error, dbEntry) {
+        try {
+          // compare db password and form
+          if (bcrypt.compareSync(req.body.password, dbEntry[0].password)) {
+            req.session.user = req.body.user;
+            req.session.userID = dbEntry[0]._id;
+            req.session.email = dbEntry[0].email;
+            res.redirect("/");
+          } else {
+            res.render("nologed", { showLoginAlert: true });
+          }
+        } catch (error) {
+          res.redirect("/login");
         }
-      } catch (error) {
-        res.redirect("/login");
-      }
-    });
+      });
+    } else {
+      res.redirect("/");
+    }
   } catch (error) {
     console.error(error);
   }

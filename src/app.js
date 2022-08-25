@@ -4,6 +4,7 @@ import { create } from "express-handlebars";
 import { PASSWORD } from "./config";
 import indexRoutes from "./routes/index.routes";
 import path from "path";
+import rateLimit from "express-rate-limit";
 
 const app = express();
 
@@ -32,6 +33,26 @@ app.use(
   })
 ); // password for managing sessions in express.
 
+var apiLimit = rateLimit({
+  windowMs: 1 * 60 * 1000, // Each minute
+  max: 15, // 15 requests from each IP
+  message: {message: "More requests than accepted. Only 15 requests each minute"},
+});
+app.use("/api", apiLimit); // Setting a limiter to API
+
+var dbLimit = rateLimit({
+  windowMs: 1 * 60 * 1000, // Each minute
+  max: 20, // 20 requests from each IP
+});
+app.use("/login", dbLimit);
+app.use("/register", dbLimit); // Setting a limiter to login and register
+
+var generalLimit = rateLimit({
+  windowMs: 1 * 10 * 1000,
+  max: 30,
+});
+app.use(generalLimit);
+
 // Set handlebars as the default template engine
 app.set("view engine", ".hbs");
 
@@ -42,7 +63,7 @@ app.use(indexRoutes);
 app.use(express.static(path.join(__dirname, "public")));
 
 // 404 configuration
-app.use((req, res, next)=>{
+app.use((req, res, next) => {
   res.status(404).render("404");
 });
 
