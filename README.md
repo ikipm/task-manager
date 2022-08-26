@@ -22,4 +22,4 @@ App preview: https://task-app-ikipm.herokuapp.com/
     - For compiling the app use ``npm run build`` and run ``npm run start`` for deploying the app.
 
 ### Other
-Tutorial: https://youtu.be/I-MhmB5B6Zk
+Idea: https://youtu.be/I-MhmB5B6Zk
