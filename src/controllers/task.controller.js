@@ -1,5 +1,6 @@
 import TaskModel from "../models/Task";
 import UsersModel from "../models/Users";
+import axios from "axios";
 
 // Add the task
 const AddTask = async (req, res) => {
@@ -138,7 +139,16 @@ const DeleteShareUser = async (req, res) => {
 
 // Render about.hbs
 const RenderAbout = (req, res) => {
-  res.render("about");
+  axios
+    .get("https://api.github.com/users/ikipm")
+    .then((response) => {
+      console.log(response.data);
+      res.render("about", { userData: response.data });
+    })
+    .catch((error) => {
+      console.log(error);
+      res.render("about");
+    });
 };
 
 export {
