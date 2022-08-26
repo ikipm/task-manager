@@ -54,9 +54,9 @@ router.post("/task/add", IfIsLogged, AddTask);
 
 router.post("/task/edit/:id", IfIsLogged, EditTask);
 
-router.post("/register", RegisterUser);
+router.post("/user/register", RegisterUser);
 
-router.post("/login", LoginUser);
+router.post("/user/login", LoginUser);
 
 router.post("/share/add/:id", IfIsLogged, AddShareUser);
 

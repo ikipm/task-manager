@@ -1,10 +1,35 @@
 <div class="container">
   <div class="row d-flex justify-content-center">
-    <div class="col-md-7">
-      <div class="card card-body p-4 bg-dark text-white text-center">
-        <h1 class="card-title">About</h1>
-        <p>This is a project made by Ikipm. It was made using JavaScript, using Express framework and handlebars. To store data, it uses a MongoDB database.</p>
-      </div>
+    <div class="col-md-5">
+      {{#if userData}}
+        <div class="card bg-dark text-white" style="width: 18rem;">
+          <img
+            src={{userData.avatar_url}}
+            class="card-img-top"
+            alt={{userData.login}}
+          />
+          <div class="card-body">
+            <h5 class="card-title">{{userData.name}}</h5>
+            <div class="card-subtitle d-flex">
+              <img src="/icons/people.svg" class="mb-2" />
+              <p>Followers: {{userData.followers}}</p>
+            </div>
+            <div class="card-subtitle d-flex">
+              <img src="/icons/repo.svg" class="mb-2" />
+              <p>Repos: {{userData.public_repos}}</p>
+            </div>
+            <p class="card-text">{{userData.bio}}</p>
+            <a href={{userData.html_url}} class="btn btn-primary">Github</a>
+            <a
+              href="https://twitter.com/{{userData.twitter_username}}"
+              class="btn btn-primary"
+            >Twitter</a>
+            <a href="https://{{userData.blog}}" class="btn btn-primary">Blog</a>
+          </div>
+        </div>
+      {{else}}
+        <p>No data</p>
+      {{/if}}
     </div>
   </div>
 </div>
