@@ -142,7 +142,6 @@ const RenderAbout = (req, res) => {
   axios
     .get("https://api.github.com/users/ikipm")
     .then((response) => {
-      console.log(response.data);
       res.render("about", { userData: response.data });
     })
     .catch((error) => {
